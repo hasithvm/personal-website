@@ -1,0 +1,98 @@
+## -*- coding: utf-8 -*-
+<%namespace name="base" file="base_helper.tmpl" import="*" />
+<%namespace name="notes" file="annotation_helper.tmpl" import="*" />
+${set_locale(lang)}
+${base.html_headstart()}
+<%block name="extra_head">
+### Leave this block alone.
+</%block>
+${template_hooks['extra_head']()}
+</head>
+<body>
+<a href="#content" class="sr-only sr-only-focusable">${messages("Skip to main content")}</a>
+
+<div class="container-fluid min-vh-100 flex-grow-1" id="content" role="main">
+<div class="row d-flex min-vh-100 flex-column flex-md-row main-content-wrapper">
+  <aside class="col-12 col-md-3 p-0 bg-blue d-flex sidebar-custom">
+
+    <div class="d-none d-lg-flex col-lg-4 col-xl-5"></div>
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-8 col-xl-7 d-flex flex-column">
+
+           <div class="row">
+                <header class="blog-header col py-3">
+        <!--            <div class="col-md-3 col-xs-2 col-sm-2" style="width: auto;">
+                        <div class="collapse bs-nav-collapsible bootblog4-search-form-holder">
+                            ${search_form}
+                        </div>
+                    </div>
+                    -->
+                       % if show_blog_title:
+                        <h1 id="blog-title">${blog_title|h}</h1>
+                        <span class="h6" id="blog-description">${blog_description}</span>
+                        % endif
+                        </a>
+                </header>
+            </div>
+
+            <div class="row navbar-wrapper">
+                    <nav class="navbar navbar-expand navbar-dark py-2">
+                        <div class="collapse navbar-collapse w-100 ">
+                            <ul class="flex-md-column flex-row navbar-nav ml-auto">            
+                                ${base.html_navigation_links_entries(navigation_links)}
+                            </ul>
+                        </div>
+                    </nav>
+            </div>
+            <div class="h-divider mt-auto d-none d-md-flex"></div>
+            <div class="row py-2 d-none d-md-flex justify-content-center flex-row">
+                        ${base.gen_icon_drawer(theme_config.get('sidebar'))}
+            </div>
+
+    </div>
+    </aside>
+
+
+    <div class="body-content d-flex col-12 col-md-6 py-3 flex-column">
+    <%block name="before_content"> </%block>
+        
+            <!--Body content-->
+            ${template_hooks['page_header']()}
+
+            <%block name="extra_header"></%block>
+            <div class="row">
+            <div class="col-12">
+                <%block name="content"></%block>
+            </div>
+            </div>
+            <!--End of body content-->
+            <div class="row blog-footer mt-auto justify-content-center">
+                    ${content_footer}
+                    ${template_hooks['page_footer']()}
+                    <%block name="extra_footer"></%block>
+            </div>
+
+    </div>
+</div>
+</div>
+
+</div>
+
+${base.late_load_js()}
+    %if date_fanciness != 0:
+        <!-- fancy dates -->
+        <script>
+        luxon.Settings.defaultLocale = "${luxon_locales[lang]}";
+        fancydates(${date_fanciness}, ${luxon_date_format});
+        </script>
+        <!-- end fancy dates -->
+    %endif
+    <%block name="extra_js"></%block>
+    <script>
+    baguetteBox.run('div#content', {
+        ignoreClass: 'islink',
+        captions: function(element){var i=element.getElementsByTagName('img')[0];return i===undefined?'':i.alt;}});
+    </script>
+${body_end}
+${template_hooks['body_end']()}
+</body>
+</html>
