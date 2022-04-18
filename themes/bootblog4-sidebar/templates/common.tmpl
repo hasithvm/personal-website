@@ -1,0 +1,7 @@
+<%def name="generate_tag_block(tags)">
+    % if tags:
+        % for tag in tags:
+        <a href="/categories/${tag}" class="badge badge-secondary">${tag}</a>
+        % endfor
+    % endif
+</%def>

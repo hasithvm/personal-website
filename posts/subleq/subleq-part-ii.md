@@ -8,8 +8,10 @@
 .. description: 
 .. type: text
 -->
+*2022: The content is presented as originally written with slight annotations for readability.*
 
 *[Part I](/projects/subleq/)*
+
 
 ### Runtime
 Now that there's a small logical model of what a true SUBLEQ computer would look like, we begin to run into some limitations. Since there is no explicit "load into mem" instruction, we begin to run into trouble almost immediately, since every computation needs a few constants along the way. To sidestep this issue, we are loading a separate RAM image and a ROM image into our computer model. Tedious - for now.
@@ -89,8 +91,10 @@ endmodule
 
 and then probe the necessary signals:
 
-![Timing Diagram](/images/projects/subleq/timing_diagram.png)
-<figcaption>Timing diagram from Xilinx ISE sim</figcaption>
+{{% thumbnail "/images/projects/subleq/timing_diagram.png" alt="Timing diagram for SUBLEQ simulation" align="center" %}}
+<figcaption>Timing diagram from simulating a few clock cycles in Xilinx ISE.</figcaption>
+{{% /thumbnail %}}
+
 As you can see, `mem[3]` is now filled with the correct value of `17d`, at the end of the fourth instruction cycle. After that, `memZ` is zeroed out (zeroing out `memZ`  is not necessary for this one operation test, but getting into the habit saves a lot of headache.)
 
 Attached to this post are the project files for this logical simulation plus the mem files, so it should be ready to run once you create a project in ISE Webpack (or your logic design environment of choice) and import everything in (default_probeAllTheThings is the rather-whimsically-named wave configuration file to probe all the signals necessary for this experiment.)

@@ -1,6 +1,6 @@
 <!--
 .. title: SUBLEQ - Part I
-.. slug: subleq
+.. slug:
 .. date: 2011-07-27 12:00:00 UTC-07:00
 .. tags: subleq, verilog
 .. category: 
@@ -18,9 +18,10 @@ An OISC (one instruction set computer) is an extremely simplified computer archi
 A SUBLEQ computer based on the OISC model has only one instruction, eliminating the need for an opcode field in the instruction. The model specified below has a datapath width of 8 bits,  but the instruction word is 24 bits wide, and is formatted in terms of memory locations it addresses.
 <!--TEASER_END-->
 
-![Instruction layout](/images/projects/subleq/inst_layout.png)
-<figcaption>Instruction format for an 8-bit SUBLEQ computer. Note that the instruction is 24 bits wide.</figcaption>
 
+{{% thumbnail "/images/projects/subleq/inst_layout.png" alt="Instruction Layout" align="center" %}}
+<figcaption>Instruction format for an 8-bit SUBLEQ computer. Note that the instruction is 24 bits wide.</figcaption>
+{{% /thumbnail %}}
 
 The **SU**btract and **B**ranch if **L**ess or **EQ**ual instruction is a fairly straightforward mathematical operation; tt extracts the integers stored in memory at `location[a]` and `location[b]`, subtracts the value of `location [b]` from `location[a]` and writes the result back into `location[b]`. If the result is an integer less than or equal to zero, it jumps to the instruction location pointed to by `c`, if not it continues on to the next instruction.
 
@@ -41,8 +42,11 @@ All integers will be stored in two's complement format. Since the SUBLEQ operati
 ### The ALU
  The Arithmetic and Logic Unit is an integral part of a modern computer. For the purposes of the SUBLEQ computer, the design of the ALU is fairly straightforward; it only has to perform the subtraction operation and to signal that the answer is negative or zero. As such, it will be a purely combinational logic element.
 
-![Instruction layout](/images/projects/subleq/ALU.png)
-<figcaption>ALU layout</figcaption>
+
+{{% thumbnail "/images/projects/subleq/ALU.png" alt="ALU" align="center" %}}
+<figcaption>ALU layout.</figcaption>
+{{% /thumbnail %}}
+
 The implementation uses a ripple-carry adder (`ADD8` (8-bit adder)) element to illustrate the ease of performing subtraction in the two's complement format.  Simply invert all the bits of the minuend using the `INV8` and add it to the subtrahend and add in 1 (the carry-in input is wired to +VCC to show that the carry in is permanent - the ALU only does subtraction and comparison.) Overflows are disregarded for the sake of simplicity. The output of the subtraction operation is compared to `0b00000000` by the comparator (`COMP8`) to check if it's zero. A simple OR gate ensures that `LEQZERO` will only be active when either the output is zero, or the MSB of the answer is positive. (A set MSB will indicate that the output is a negative integer.)
 
 Testing the ALU is rather simple with a Verilog test fixture.  Running the simulation for about 0.2ms in simulation time (or well over 2 million samples) satisfies that there are no errors in logic.
@@ -244,8 +248,9 @@ endmodule
 #### Sequencer
 To arbitrate the rest of the system, the sequencer cycles through the two states fetch and execute in rapid succession, using two D-flip flops to satisfy the need for three defined states (and one unused state.)
 
-![Sequencer layout](/images/projects/subleq/sequencer.png)
-<figcaption>Sequencer</figcaption>
+{{% thumbnail "/images/projects/subleq/sequencer.png" alt="Sequencer layout" align="center" %}}
+<figcaption>Sequencer.</figcaption>
+{{% /thumbnail %}}
 
 Asserting RST at any point in time will reset both flip flops to zero, so `STATE0` is defined as `0b00`. The need for a separate post-reset state is to allow the next state (FETCH) to run for one complete clock cycle. Each flipflop is fed a combination of logic known as the next state equations (for more information, breeze through synchronous logic.)
 At the first positive CLK edge after `RST`, the sequencer will then transition through `STATE1`  (`0b01`) and `STATE2` (`0b10`), looping back to `STATE1` and continuing indefinitely. `STATE3` (`0b11`) is unused, however, if by accident (or random gamma ray strike) the state machine transitions to `STATE3`, it will then transition back to `STATE0` and then resume its normal cycle.
@@ -253,11 +258,12 @@ At the first positive CLK edge after `RST`, the sequencer will then transition t
 
 ### Assembly
 Now that all the components have been introduced, here's how they fit together:
-<p align="center">
-![SUBLEQ Main](/images/projects/subleq/subleq-main.PNG)
-<figcaption>SUBLEQ Layout</figcaption>
-</p>
-PC_incrementer is a simple module that increments the input by 1 every time the enable signal is asserted. The multiplexer selects either the incremented PC or the c operand of the instruction depending on the value of `LEQZERO`. Remember that `LEQZERO` will be asserted only if the output of the ALU is less than or equal to zero, so that the value passed to the new value of PC will be operand `c` if `LEQZERO` is HIGH.
-Other than that, the rest of the layout is self-explanatory. `ireg_24` only stores the output of the next instruction when `FETCH` is HIGH, and therefore there is only one instruction per CPU cycle. The RAM is hardwired to write the answer of RAM[`a`] - RAM[`b`] back into RAM[`b`], and only do so on the rising edge of `CLK`.
+
+{{% thumbnail "/images/projects/subleq/subleq-main.PNG" alt="SUBLEQ Layout" align="center" %}}
+<figcaption>SUBLEQ Layout.</figcaption>
+{{% /thumbnail %}}
+
+PC_incrementer is a simple module that increments the input by 1 every time the enable signal is asserted. The multiplexer selects either the incremented `PC` or the `c` operand of the instruction depending on the value of `LEQZERO`. Remember that `LEQZERO` will be asserted only if the output of the ALU is less than or equal to zero, so that the value passed to the new value of PC will be operand `c` if `LEQZERO` is HIGH.
+Other than that, the rest of the layout is self-explanatory. `ireg_24` only stores the output of the next instruction when `FETCH` is HIGH, and therefore there is only one instruction per CPU cycle. The RAM is hardwired to write the answer of `RAM[a]` - `RAM[b]` back into `RAM[b]`, and only do so on the rising edge of `CLK`.
 
 This concludes part I of the two-part howto on synthesizing your own one-instruction computer. Part II will be coming soon, and it will address how to write a simple program for your computer design -- and how to run it.

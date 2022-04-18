@@ -44,7 +44,7 @@ ${template_hooks['extra_head']()}
                     </nav>
             </div>
             <div class="h-divider mt-auto d-none d-md-flex"></div>
-            <div class="row py-2 d-none d-md-flex justify-content-center flex-row">
+            <div class="row py-3 d-none d-md-flex justify-content-center flex-row">
                         ${base.gen_icon_drawer(theme_config.get('sidebar'))}
             </div>
 
@@ -52,20 +52,22 @@ ${template_hooks['extra_head']()}
     </aside>
 
 
-    <div class="body-content d-flex col-12 col-md-6 py-3 flex-column">
+    <div class="body-content d-flex col-12 col-md-6 py-3 ml-3 px-5 flex-column">
+    <%block name="content_header"> </%block>
     <%block name="before_content"> </%block>
-        
+
             <!--Body content-->
             ${template_hooks['page_header']()}
 
             <%block name="extra_header"></%block>
+
             <div class="row">
             <div class="col-12">
                 <%block name="content"></%block>
             </div>
             </div>
             <!--End of body content-->
-            <div class="row blog-footer mt-auto justify-content-center">
+            <div class="row blog-footer mt-auto justify-content-center py-3">
                     ${content_footer}
                     ${template_hooks['page_footer']()}
                     <%block name="extra_footer"></%block>
