@@ -1,12 +1,6 @@
 pipeline {
     agent any
     stages {
-        agent {
-            docker { 
-                image 'python:alpine3.15'
-                args '-u root --privileged'
-            }
-        }
         stage('Build-Python') {
             steps {
                 git credentialsId: 'Github-DeployKey', url: 'git@github.com:hasithvm/personal-website.git'
@@ -30,11 +24,11 @@ pipeline {
 
 
         }
-            post {
-                success {
-                    sh 'cd output && zip -r ../output.zip .'
-                    archiveArtifacts 'output.zip,output/**'
-                }
-            }
     }
+    post {
+    success {
+        sh 'cd output && zip -r ../output.zip .'
+        archiveArtifacts 'output.zip,output/**'
+    }
+}
 }
