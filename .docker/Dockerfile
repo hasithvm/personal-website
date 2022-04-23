@@ -8,5 +8,5 @@ WORKDIR /home/content/
 
 COPY . .
 
+ENTRYPOINT [ "service thttpd start && tail -f /dev/null"]
 
-CMD ["thttpd", "-D", "-h 0.0.0.0 -p 9000 -d /home/content -u content"]
