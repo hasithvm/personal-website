@@ -13,6 +13,7 @@ pipeline {
                 // build dependencies include git for HEAD
                 sh 'apk update && apk add git zip'
                 sh 'nikola build '
+                def customImage = docker.build("my-image:${env.BUILD_ID}", "-f Dockerfile ./output") 
 
             }
 
