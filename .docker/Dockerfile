@@ -4,7 +4,7 @@ RUN apk add thttpd
 
 
 WORKDIR /etc/thttpd/
-COPY ./.docker/conf/* .
+COPY ./.docker/conf/* ./
 
 RUN adduser -D content
 USER content
