@@ -12,5 +12,5 @@ WORKDIR /home/content/
 
 COPY . .
 
-ENTRYPOINT [ "service thttpd start && tail -f /dev/null"]
+ENTRYPOINT [ "/usr/sbin/thttpd -C /etc/thttpd/thttpd.conf -D"]
 
