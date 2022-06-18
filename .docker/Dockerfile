@@ -19,5 +19,5 @@ RUN find . -type d -print0 | xargs -0 -I {} chmod 445 "{}"
 
 
 ENTRYPOINT [ "/usr/sbin/thttpd"]
-CMD [ "-C",  "/etc/thttpd/thttpd.conf", "-D", "-l", "/dev/null"]
+CMD [ "-C",  "/etc/thttpd/thttpd.conf", "-D", "-l", "/dev/stderr"]
 
