@@ -12,5 +12,8 @@ WORKDIR /home/content/
 
 COPY . .
 
-ENTRYPOINT [ "/usr/sbin/thttpd -C /etc/thttpd/thttpd.conf -D"]
+EXPOSE 80
+
+ENTRYPOINT [ "/usr/sbin/thttpd"]
+CMD [ "-C",  "/etc/thttpd/thttpd.conf", "-D"]
 
