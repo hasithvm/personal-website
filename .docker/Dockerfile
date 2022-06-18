@@ -15,5 +15,5 @@ COPY . .
 EXPOSE 80
 
 ENTRYPOINT [ "/usr/sbin/thttpd"]
-CMD [ "-C",  "/etc/thttpd/thttpd.conf", "-D"]
+CMD [ "-C",  "/etc/thttpd/thttpd.conf", "-D", "-l", "/dev/null"]
 
