@@ -15,7 +15,7 @@ EXPOSE 80
 
 RUN chown -R content:content .
 RUN chmod -R 444 .
-RUN find . -type d -print0 | xargs -0 -I {} chmod 445 "{}"
+RUN find . -type d -print0 | xargs -0 -I {} chmod 555 "{}"
 
 
 ENTRYPOINT [ "/usr/sbin/thttpd"]
