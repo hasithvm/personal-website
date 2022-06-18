@@ -11,6 +11,8 @@ USER content
 WORKDIR /home/content/
 
 COPY . .
+RUN chown -R content .
+RUN chmod -R 0444 .
 
 EXPOSE 80
 
