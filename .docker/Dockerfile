@@ -7,12 +7,14 @@ WORKDIR /etc/thttpd/
 COPY ./.docker/conf/* ./
 
 RUN adduser -D content
-USER content
-WORKDIR /home/content/
 
+WORKDIR /home/content/
 COPY . .
-RUN chown -R content .
+
+RUN chown -R content:content .
 RUN chmod -R 0444 .
+
+USER content
 
 EXPOSE 80
 
