@@ -11,6 +11,9 @@ RUN adduser -D content
 WORKDIR /home/content/
 COPY . .
 
+# delete docker build content from home folder
+
+RUN rm -rf .docker
 EXPOSE 80
 
 RUN chown -R content:content .
