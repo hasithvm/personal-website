@@ -36,8 +36,8 @@ pipeline {
     }
     post {
     success {
-        sh 'cd output && zip -r ../output.zip .'
-        archiveArtifacts 'output.zip,output/**'
+        sh 'cd output && tar -czf /tmp/website.gz .'
+        archiveArtifacts '/tmp/website.gz,output/**'
     }
 }
 }
