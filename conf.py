@@ -143,7 +143,7 @@ TRANSLATIONS_PATTERN = '{path}.{lang}.{ext}'
 
 NAVIGATION_LINKS = {
     DEFAULT_LANG: (
-        ("/index.html", "Home", "fa-solid fa-user-gear"),
+        ("/", "Home", "fa-solid fa-user-gear"),
         ("/projects/", "Projects", "fa-solid fa-blog"),
         ("/archive.html", "Archive", "fa-solid fa-clock-rotate-left"),
         ("/categories/", "Tags","fa-solid fa-tags"),
