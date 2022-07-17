@@ -1,6 +1,6 @@
 <!--
-.. title: NorthSec 2019 CTF Challenge Writeup
-.. slug: northsec-2019-ctf-challenge-writeup
+.. title: NorthSec 2019 CTF Challenge
+.. slug: 
 .. date: 2019-05-30 09:48:01 UTC-07:00
 .. tags: nsec, ctf, writeup
 .. category: 

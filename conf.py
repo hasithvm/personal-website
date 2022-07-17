@@ -143,8 +143,7 @@ TRANSLATIONS_PATTERN = '{path}.{lang}.{ext}'
 
 NAVIGATION_LINKS = {
     DEFAULT_LANG: (
-        ("/index.html", "Home", "fa-solid fa-house"),
-        ("/about/", "About", "fa-solid fa-user-gear"),
+        ("/", "Home", "fa-solid fa-user-gear"),
         ("/projects/", "Projects", "fa-solid fa-blog"),
         ("/archive.html", "Archive", "fa-solid fa-clock-rotate-left"),
         ("/categories/", "Tags","fa-solid fa-tags"),
@@ -1160,7 +1159,7 @@ PRETTY_URLS = True
 #       with the MarkdownExtension class and should not be added here.
 # Defaults are markdown.extensions.(fenced_code|codehilite|extra)
 # markdown.extensions.meta is required for Markdown metadata.
-MARKDOWN_EXTENSIONS = ['markdown.extensions.fenced_code', 'markdown.extensions.codehilite', 'markdown.extensions.extra']
+MARKDOWN_EXTENSIONS = ['markdown.extensions.fenced_code', 'markdown.extensions.codehilite', 'markdown.extensions.extra', 'markdown.extensions.toc']
 
 # Options to be passed to markdown extensions (See https://python-markdown.github.io/reference/)
 # Default is {} (no config at all)
@@ -1313,7 +1312,15 @@ cfg: { // Application Insights Configuration
 </script>
 """
 
-EXTRA_HEAD_DATA = APPINSIGHTS_SCRIPT.replace('APPINSIGHTS_KEY', APPINSIGHTS_KEY)
+ADDITIONAL_HEAD = """
+
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+"""
+
+
+EXTRA_HEAD_DATA = APPINSIGHTS_SCRIPT.replace('APPINSIGHTS_KEY', APPINSIGHTS_KEY) + ADDITIONAL_HEAD
 
 # Google Analytics or whatever else you use. Added to the bottom of <body>
 # in the default template (base.tmpl).

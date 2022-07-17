@@ -12,6 +12,10 @@
 *This project has been featured on [HackADay](https://hackaday.com/2011/07/27/building-a-one-instruction-computer/) on 7/27/2011.*
 
 *2022: The content is presented as originally written with slight annotations for readability.*
+
+
+[TOC]
+
 ## Introduction
 An OISC (one instruction set computer) is an extremely simplified computer architecture. Instead of a fully-featured instruction set (also known as a complex instruction set), a OISC has only one operation; it is the RISC approach to computing taken to the extreme.
 
@@ -37,7 +41,7 @@ Execute: the computer would use the operands of the instruction to access the da
 
 All integers will be stored in two's complement format. Since the SUBLEQ operation requires subtraction and the possibility that the result will be negative, the computer will be using two's complement integers exclusively (a detailed first look at two's complement notation is available.)
 
-### Implementation
+## Implementation
 
 ### The ALU
  The Arithmetic and Logic Unit is an integral part of a modern computer. For the purposes of the SUBLEQ computer, the design of the ALU is fairly straightforward; it only has to perform the subtraction operation and to signal that the answer is negative or zero. As such, it will be a purely combinational logic element.
@@ -106,7 +110,7 @@ if (~(O == (A - B)) ||
 endmodule
 ```
 
-#### Multiplexer
+### Multiplexer
 This humble piece of logic performs a simple yet critical task. When the select line is HIGH, the output values reflects the input values at port A continuously. When the select line is LOW, the output values mirror the inputs at port B (read more about the mux at Wikipedia.)
 ``` verilog
 `timescale 1ns / 1ps
@@ -121,7 +125,7 @@ assign out = (sel)? A: B;
 endmodule
 ```
 
-#### Program Counter (PC)
+### Program Counter (PC)
  This register keeps track of where in the ROM the current instruction is located. Updating the PC is done only when the execution of the current instruction is complete.
 
 ``` verilog
@@ -156,7 +160,7 @@ assign PC =PCinternal;
 endmodule
 ```
 
-#### Instruction Register (IR)
+### Instruction Register (IR)
 This register fetches the current instruction from the ROM whenever the EN line is asserted and latches the value until told to reset (RST) or until EN is asserted again.
 ``` verilog
 module ireg_24(
@@ -182,7 +186,7 @@ end
 endmodule
 ```
 
-#### Dual Port RAM
+### Dual Port RAM
 This is a Verilog implementation of a dual port RAM, allowing two RAM locations to be read simultaneously. Only one write can be done at once, and only when WE is held HIGH, and there are 256 bytes of RAM. The initial block initializes the RAM with values read in from data.ram.
 
 ``` verilog
@@ -222,7 +226,7 @@ to the outputs DataOutA and DataOutB*/
 endmodule
 ```
 
-#### Instruction ROM
+### Instruction ROM
  The instruction ROM holds all the instructions necessary for the SUBLEQ computer to work. Instead of typing them in by hand, the initial begin block reads in the contents of a text hex file into the registers, which is very convenient. The operational features of the ROM mirrors that of the RAM; it reads the instruction at the location pointed to by addr.
 
 ``` verilog
@@ -245,7 +249,7 @@ end
 endmodule
 ```
 
-#### Sequencer
+### Sequencer
 To arbitrate the rest of the system, the sequencer cycles through the two states fetch and execute in rapid succession, using two D-flip flops to satisfy the need for three defined states (and one unused state.)
 
 {{% thumbnail "/images/projects/subleq/sequencer.png" alt="Sequencer layout" align="center" %}}
@@ -256,7 +260,7 @@ Asserting RST at any point in time will reset both flip flops to zero, so `STATE
 At the first positive CLK edge after `RST`, the sequencer will then transition through `STATE1`  (`0b01`) and `STATE2` (`0b10`), looping back to `STATE1` and continuing indefinitely. `STATE3` (`0b11`) is unused, however, if by accident (or random gamma ray strike) the state machine transitions to `STATE3`, it will then transition back to `STATE0` and then resume its normal cycle.
  
 
-### Assembly
+## Assembly
 Now that all the components have been introduced, here's how they fit together:
 
 {{% thumbnail "/images/projects/subleq/subleq-main.PNG" alt="SUBLEQ Layout" align="center" %}}
