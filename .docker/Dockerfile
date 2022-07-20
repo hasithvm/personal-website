@@ -1,10 +1,9 @@
 FROM alpine:3.15.4
 
-RUN apk add thttpd
+RUN apk add lighttpd
 
-
-WORKDIR /etc/thttpd/
-COPY ./.docker/conf/* ./
+WORKDIR /etc/lighttpd/
+COPY ./.docker/conf/lighttpd.conf ./
 
 RUN adduser -D content
 
@@ -21,6 +20,6 @@ RUN chmod -R 444 .
 RUN find . -type d -print0 | xargs -0 -I {} chmod 555 "{}"
 
 
-ENTRYPOINT [ "/usr/sbin/thttpd"]
-CMD [ "-C",  "/etc/thttpd/thttpd.conf", "-D", "-l", "/dev/stderr"]
+ENTRYPOINT [ "/usr/sbin/lighttpd"]
+CMD [ "-f",  "/etc/lighttpd/lighttpd.conf", "-D"]
 
