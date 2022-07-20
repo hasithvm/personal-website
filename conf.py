@@ -259,6 +259,8 @@ PAGES = (
     ("pages/*.md", "", "page.tmpl"),
     ("pages/*.txt", "", "page.tmpl"),
     ("pages/*.html", "", "page.tmpl"),
+    ("errors/*.html", "errors", "page.tmpl"),
+
 )
 
 
