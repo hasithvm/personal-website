@@ -1004,7 +1004,7 @@ LICENSE = """
 # A small copyright notice for the page footer (in HTML).
 # (translatable)
 CONTENT_FOOTER = """
-&copy; {date} by {author}. Last generated {build_time}{current_hash}. 
+<p>&copy; {date} by {author}. Last generated {build_time}{current_hash}.</p>
 
 {license}"""
 
