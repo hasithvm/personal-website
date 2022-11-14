@@ -1009,11 +1009,25 @@ CONTENT_FOOTER = """
 {license}"""
 
 def commitHashHelper():
-    try:
-        label = ' from ' + (subprocess.check_output(["git", "describe", "--always"])).decode('utf-8').strip()
-        return label
-    except subprocess.CalledProcessError:
-        return ''
+    
+    
+    git_url = os.getenv('GIT_URL')
+    git_sha = os.getenv('GIT_COMMIT')
+    label = ''
+    if git_url:
+        # trim off the .git suffix if it exists
+        git_url = git_url.replace('.git', '')
+        short_hash = git_sha[0:7]
+        label = f' from <a href="{git_url}/commit/{git_sha}" target="_blank" rel="noopener noreferrer">{short_hash}</a>'
+        
+    else:
+        try:
+            git_sha = (subprocess.check_output(["git", "describe", "--always"])).decode('utf-8').strip()
+            label = f' from {git_sha}'
+        except subprocess.CalledProcessError:
+            label = ''
+    
+    return label
 
 # Things that will be passed to CONTENT_FOOTER.format().  This is done
 # for translatability, as dicts are not formattable.  Nikola will
